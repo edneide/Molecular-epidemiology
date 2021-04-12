@@ -472,8 +472,8 @@ body <- dashboardBody(
                         outputId = 'plot1',
                         width = "100%",
                         height = "585px",
-                        inline = TRUE,
-                        reportTheme = TRUE
+                        inline = TRUE
+                        #reportTheme = TRUE
                         )
                     ),
                 box(
@@ -524,8 +524,8 @@ body <- dashboardBody(
                             outputId = 'plot3i',
                             width = "100%",
                             height = "700px",
-                            inline = TRUE,
-                            reportTheme = TRUE
+                            inline = TRUE
+                            #reportTheme = TRUE
                             )
                         )
                     )
