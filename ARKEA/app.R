@@ -1,4 +1,4 @@
-#%######################################################%##
+##%######################################################%##
 #                                                          #
 ####                     Packages                       ####
 #                                                          #
@@ -144,17 +144,17 @@ server <- function(input, output) {
     })
     
     
-    ### Lineage distribution 
+### Lineage distribution 
     dataPong <- reactive({
         metadata %>% 
             filter(Country == "Brazil", `PANGO Lineage` %in% c(input$pango), 
                    `Collection Data` >= input$dateSelect[1] & 
-                       `Collection Data` <= input$dateSelect[2]) %>% 
+                    `Collection Data` <= input$dateSelect[2]) %>% 
             group_by(`Collection Data`, `PANGO Lineage`) %>% # Admin Division
             count(`PANGO Lineage`) %>% 
             ungroup() %>% 
             rename(data = `Collection Data`, total = n, Linage = `PANGO Lineage`)
-    })
+        })
     
     output$plot1 <-  renderPlotly({
         
@@ -176,7 +176,7 @@ server <- function(input, output) {
         
     })
     
-    ### Lineages by states of the federation
+### Lineages by states of the federation
     
     output$plot2 <- renderIheatmap({
         
@@ -192,8 +192,8 @@ server <- function(input, output) {
                             type = "bar", colors  = "#104E8B", layout = list(title = "Média<br>(Estados)",font = list(size = 8))) # 
     })
     
-    ### Descriptive statistics 
-    
+### Descriptive statistics 
+
     sta.data <- reactive({
         metadata %>% 
             clean_names() %>% 
@@ -226,7 +226,7 @@ server <- function(input, output) {
                               c("#66CDAA", "#458B74"),
                               #`Média` = color_tile(customGreen, customGreen0),
                               #`Desvio padrão` = color_tile(customGreen, customGreen0),
-                              p_digits = "scientific")) %>% 
+                         p_digits = "scientific")) %>% 
             htmltools::HTML() %>%
             div() %>%
             spk_add_deps() %>%
@@ -235,8 +235,8 @@ server <- function(input, output) {
         res3
     })
     
-    ### entropy 
-    ### 
+### entropy 
+### 
     gen <- reactive({
         entropy %>% 
             filter(gene %in% c(input$gene))
@@ -259,7 +259,7 @@ server <- function(input, output) {
                 yaxis = list(title = "Entropia", zeroline = FALSE))
     })
     
-    ### Spatial data 
+### Spatial data 
     output$map <- renderLeaflet({
         
         colors <- c("#7FFFD4", "#8A2BE2", "#1874CD", "#66CD00", "#EE2C2C", "#EEC900", "#FF6EB4", 
@@ -278,7 +278,7 @@ server <- function(input, output) {
                           #legendPosition = "topleft",
                           width = 45, 
                           height = 45
-            ) %>% 
+                          ) %>% 
             addMiniMap(tiles = providers$Esri.WorldStreetMap,
                        toggleDisplay = TRUE,
                        zoomLevelOffset = -8,
@@ -297,7 +297,7 @@ server <- function(input, output) {
             addEasyButton(easyButton(
                 icon = "fa-crosshairs", title = "Localize-me",
                 onClick = JS("function(btn, map){ map.locate({setView: true}); }")))
-    })
+        })
     
     # Table  
     output$tabela <- renderDataTable({
@@ -320,11 +320,11 @@ server <- function(input, output) {
     
     
     
-}
+     }
 
 #   __________________ #< 1800f744d8f9aeaf319e084fbcb9b6bd ># __________________
 #   Header                                                                  ####
-
+    
 header <- dashboardHeader(
     
     title = shinyDashboardLogo(
@@ -332,7 +332,7 @@ header <- dashboardHeader(
         boldText = "Vigilância Molecular (ARKEA)",
         mainText = "App",
         badgeText = "v0.0.1"
-    ),
+        ),
     
     titleWidth = 360,
     
@@ -358,8 +358,8 @@ header <- dashboardHeader(
                                         ;-)")), # Para ver as instruções de uso, </br> clique aquí 
                      icon = icon("life-ring"),
                      time = now())
+                 )
     )
-)
 
 
 #   __________________ #< 614893309be85aaf97989a89fbc667f9 ># __________________
@@ -382,7 +382,7 @@ sidebar <- dashboardSidebar(
                 choices = pongo$`PANGO Lineage`,
                 multiple = TRUE,
                 selected =  pongo$`PANGO Lineage`
-            ),
+                ),
             
             tags$p(HTML("<br>Permite escolher uma ou mais linhagem"), style = "color:#000080"),
             
@@ -400,11 +400,11 @@ sidebar <- dashboardSidebar(
                 separator = tags$strong('Até'),
                 width = '400px',
                 autoclose = TRUE
-            ),
+                ),
             tags$p(HTML("<br>Permite filtrar os dados a partir de duas datas</br> adicionadas 
                         manualmente ou selecionadas</br> diretamente na caixa de diálogo."), 
                    style = "color:#000080")
-        ),
+            ),
         
         menuItem(
             text = 'Estatística descritiva',
@@ -416,9 +416,9 @@ sidebar <- dashboardSidebar(
                 choices = list('Asia', 'Europe', 'Oceania', 'South America', 'North America', 'Africa'),
                 multiple = FALSE,
                 selected = 'South America'
-            ),
+                ),
             tags$p(HTML("<br>Permite escolher uma Região"), style = "color:#000080") 
-        ),
+            ),
         
         menuItem(
             text = 'Entropía',
@@ -432,12 +432,12 @@ sidebar <- dashboardSidebar(
                 multiple = TRUE,
                 selected = list('ORF1a', 'ORF1b', 'S', 'ORF3a', 'E', 'M', 'ORF6', 'ORF7a', 'ORF7b', 'ORF8',
                                 'ORF9b', 'N')
-            ),
+                ),
             tags$p(HTML("<br>Permite escolher uma ou mais genes"), style = "color:#000080")
+            )
         )
     )
-)
-
+    
 
 
 #   __________________ #< dfecf5d7f80c1a4e3e88607e968224af ># __________________
@@ -458,40 +458,40 @@ body <- dashboardBody(
                 title = '1-Frequência de Linhagem (PANGO)',
                 icon = icon('fas fa-chart-bar'),
                 fluidRow(
+                
+                
+                box(
+                    title = "Figura A: Frequência de Linhagem (PANGO) no Brasil",
+                    status = 'danger',
+                    #background = 'black',
+                    solidHeader = FALSE,
+                    width = 12,
+                    height = 640,
                     
-                    
-                    box(
-                        title = "Figura A: Frequência de Linhagem (PANGO) no Brasil",
-                        status = 'danger',
-                        #background = 'black',
-                        solidHeader = FALSE,
-                        width = 12,
-                        height = 640,
-                        
-                        plotlyOutput(
-                            outputId = 'plot1',
-                            width = "100%",
-                            height = "585px",
-                            inline = TRUE,
-                            reportTheme = TRUE
+                    plotlyOutput(
+                        outputId = 'plot1',
+                        width = "100%",
+                        height = "585px",
+                        inline = TRUE,
+                        reportTheme = TRUE
                         )
                     ),
-                    box(
-                        title = "Figura B: Número de linhagens (PANGO) por Estados da Federação",
-                        status = 'danger',
-                        solidHeader = FALSE,
-                        #background = 'black',
-                        width = 12,
-                        height = 640,
-                        
-                        iheatmaprOutput(
-                            outputId = 'plot2', 
-                            width = "100%", 
-                            height = "585px"
+                box(
+                    title = "Figura B: Número de linhagens (PANGO) por Estados da Federação",
+                    status = 'danger',
+                    solidHeader = FALSE,
+                    #background = 'black',
+                    width = 12,
+                    height = 640,
+                    
+                    iheatmaprOutput(
+                        outputId = 'plot2', 
+                        width = "100%", 
+                        height = "585px"
                         )
                     )
                 )
-            ),
+                ),
             
             tabPanel(
                 title = "2-Estatística descritiva",
@@ -504,8 +504,8 @@ body <- dashboardBody(
                     solidHeader = FALSE,
                     
                     htmlOutput('Res3')
-                )
-            ),
+                    )
+                ),
             tabPanel(
                 title = '3-Entropía',
                 icon = icon("random"), #'fas fa-dna' fas fa-chart-pie
@@ -526,25 +526,25 @@ body <- dashboardBody(
                             height = "700px",
                             inline = TRUE,
                             reportTheme = TRUE
+                            )
                         )
                     )
-                )
-            ),
+                ),
             
             tabPanel(
                 title = '4-Dados espaciais',
                 icon = icon('globe'),
                 
                 fluidPage( 
+                
+                box(
+                    title = "Mapa A: Distribuição de linhagens (Pongo) por Estados da Federação",
+                    width = 12,
+                    status = 'danger',
+                    solidHeader = FALSE,
                     
-                    box(
-                        title = "Mapa A: Distribuição de linhagens (Pongo) por Estados da Federação",
-                        width = 12,
-                        status = 'danger',
-                        solidHeader = FALSE,
-                        
-                        leafletOutput('map', height = 800)
-                        
+                    leafletOutput('map', height = 800)
+                    
                     )
                 )
             ),
@@ -564,9 +564,9 @@ body <- dashboardBody(
                             outputId = 'tabela',
                             width = "100%", 
                             height = "auto")
+                        )
                     )
-                )
-            ),
+                ),
             tabPanel(
                 title = 'Informações',
                 icon = icon('fas fa-info-circle'),
@@ -589,18 +589,30 @@ body <- dashboardBody(
                              width="600" height="450"></center>'), 
                         tags$p(HTML("Os dados utilizados foram obtidos do site do Global Influenza Surveillance and Response System <b>(GISRS)</b> e podem ser acessados através do link a seguir <a href='https://www.gisaid.org/'>link</a>. Para mais informações sobre o coronavírus, você pode acessar o link do Instituto para Redução de Riscos e Desastres de Pernambuco (IRRD) <a href='https://www.irrd.org/'>link</a>."))
                         
+                        )
                     )
                 )
             )
         )
     )
-)
+    
+
+
+
 
 ##  .................. #< 933543121e490d5078311bfd9a747cae ># ..................
 ##  ui and shinyApp                                                         ####
+
+
+
+
 ui <- dashboardPage(
     header = header,
     sidebar = sidebar,
     body = body
 )
+
+
+
 shinyApp(ui, server)
+
